@@ -1285,8 +1285,6 @@ class CI_Loader {
 		$CI->$object_name = isset($config)
 			? new $class_name($config)
 			: new $class_name();
-
-		loaded_classes($class, $CI->$object_name);
 	}
 
 	// --------------------------------------------------------------------
