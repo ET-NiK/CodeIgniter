@@ -6,7 +6,7 @@
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2017, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2014 - 2017, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  * @since	Version 1.0.0
@@ -145,11 +145,6 @@ if ( ! function_exists('force_download'))
 			$filename = implode('.', $x);
 		}
 
-		if ($data === NULL && ($fp = @fopen($filepath, 'rb')) === FALSE)
-		{
-			return;
-		}
-
 		// Clean output buffer
 		if (ob_get_level() !== 0 && @ob_end_clean() === FALSE)
 		{
@@ -170,13 +165,12 @@ if ( ! function_exists('force_download'))
 			exit($data);
 		}
 
-		// Flush 1MB chunks of data
-		while ( ! feof($fp) && ($data = fread($fp, 1048576)) !== FALSE)
+		// Flush the file
+		if (@readfile($filepath) === FALSE)
 		{
-			echo $data;
+			return;
 		}
 
-		fclose($fp);
 		exit;
 	}
 }
